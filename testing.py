@@ -20,7 +20,8 @@ class TestRequest(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         cls.driver.quit()
-
+        
+#a test to ensure google.com is working
     def test_request(self):
         wait = WebDriverWait(self.driver, 10)
         self.driver.get("https://google.com/ncr")
