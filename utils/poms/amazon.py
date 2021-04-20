@@ -1,10 +1,10 @@
-from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
+from selenium.webdriver.remote.webdriver import WebDriver
 
 
 class AmazonPOM:
 
-    def __init__(self, driver: Chrome):
+    def __init__(self, driver: WebDriver):
         self.driver = driver
 
         # Locators
