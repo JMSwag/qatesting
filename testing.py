@@ -1,13 +1,15 @@
+import os
+import threading
+import time
 import unittest
-
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support.expected_conditions import presence_of_element_located
 
-from utils import AmazonPOM, BookBytePOM, GoogleBooksAPIClient
-
-
-class TestUi(unittest.TestCase):
-
+class TestRequest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         chrome_options = Options()
@@ -18,33 +20,17 @@ class TestUi(unittest.TestCase):
     def tearDownClass(cls):
         cls.driver.quit()
 
-    def test_amazon(self):
-        amazon_pom = AmazonPOM(self.driver)
-        amazon_pom.go_to_page()
-        self.assertEqual("2800 Pringle Rd SE Suite 100", amazon_pom.address.text)
-
-    def test_bookbyte(self):
-        bookbyte_pom = BookBytePOM(self.driver)
-        bookbyte_pom.go_to_page()
-
-        keyword_search_term = 'college'
-        bookbyte_pom.keywords.send_keys(keyword_search_term)
-        bookbyte_pom.btn_search.click()
-
-        for result in bookbyte_pom.results:
-            self.assertIn(keyword_search_term, result.text.lower())
+    #a test to ensure google.com is working
+    def test_request(self):
+        wait = WebDriverWait(self.driver, 10)
+        self.driver.get("https://google.com/ncr")
+        self.driver.find_element(By.NAME, "q").send_keys("cheese" + Keys.RETURN)
+        first_result = wait.until(presence_of_element_located((By.CSS_SELECTOR, "h3>div")))
+        self.assertEqual('Show more', first_result.get_attribute("textContent"))
 
 
-class TestAPI(unittest.TestCase):
-
-    def test_google_books_api(self):
-        client = GoogleBooksAPIClient()
-
-        truth = ["Brian W. Kernighan", "Dennis M. Ritchie"]
-        authors = client.authors_by_ibsn('0131103628', "The C Programming Language")
-        self.assertEqual(truth, authors)
 
 
 if __name__ == '__main__':
     unittest.main()
-    # print("all done tests ran" )
+    #print ("all done tests ran" )
