@@ -12,17 +12,11 @@ jobs:
           versionSpec: '3.7'
           addToPath: true
         name: pyTools
+
     - script: |
         bash prepenv.sh
         make deps
       displayName: Setting up env
-
-    - task: UsePythonVersion@0
-        displayName: Get Python for Python tools.
-        inputs:
-          versionSpec: '3.7'
-          addToPath: false
-        name: pyTools
 
     - script: |
         bash make test
