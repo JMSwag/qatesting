@@ -19,5 +19,5 @@ jobs:
       displayName: Setting up env
 
     - script: |
-        bash make test
+        make test
 

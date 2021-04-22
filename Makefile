@@ -2,4 +2,4 @@ deps:
 	pip install -r requirements.txt
 
 test:
-	python testing.py
+	python bookbyte_testing.py
